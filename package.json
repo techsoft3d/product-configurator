@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server",
-    "build": "webpack"
+    "build": "webpack",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "author": "Chris Pillion",
   "license": "ISC",
@@ -17,6 +19,7 @@
     "babel-preset-env": "^1.7.0",
     "css-loader": "^1.0.0",
     "file-loader": "^3.0.1",
+    "gh-pages": "^2.2.0",
     "style-loader": "^0.21.0",
     "ts-loader": "^5.3.3",
     "typescript": "^3.4.1",
