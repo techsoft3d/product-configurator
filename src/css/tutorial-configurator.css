@@ -1,0 +1,214 @@
+#logo-head {
+    height:7.5%;
+    border-radius: 2px;
+    margin: 0.5% 0.5% 0.25% 0.5%;
+}
+
+#component-browser {
+  position: relative;
+  width: 70%;
+  height: 25.5%;
+  float: left;
+  margin: 0.25% 0.25% 0.25% 0.5%;
+}
+
+#model-info {
+  position: relative;
+  top: 11%;
+  left: 4%;
+  width: 90%;
+}
+
+#inspector-info {
+  height: 100%;
+}
+
+#build-buttons {
+  width: 28.5%;
+  height: 9%;
+  margin: 0.25% 0.5% 0.25% 0.25%;
+  float: right;
+}
+
+#button-strip {
+  margin: 4% 14% 3.5% 14%;
+}
+
+#button-strip .btn {
+  font-size: small;
+}
+
+#canvas {
+  width: 70%;
+  height: 65%;
+  position: relative;
+  float: left;
+  margin: 0.25% 0.25% 0.5% 0.5%;
+}
+
+
+#component-preview {
+  width: 28.5%;
+  height: 40%;
+  margin: 0.25% 0.5% 0.25% 0.25%;
+  float: right;
+  position: relative;
+}
+
+#component-pills {
+  margin: 3.5% 1% 1% 1%;
+  height: 76%;
+  font-size: small;
+}
+
+.nav-tabs {
+  border-width: 0px;
+}
+
+#pills-tabContent {
+  padding: 0.5% 1% 1% 1%;
+  height: 75%;
+  background-color:#272727;
+  border: 1px solid #545454;
+  border-radius: 2px;
+}
+
+#pills-tabContent img {
+  max-width: 130px;
+}
+
+.nav-tabs .nav-link.active, .nav-pills .show>.nav-link {
+  background-color: #272727;
+  color: #d4d4d4;
+  border: 1px solid #545454;
+  border-bottom: 1px solid #272727;
+}
+
+#configuration-details {
+  width: 28.5%;
+  height: 40.5%;
+  float: right;
+  margin: 0.25% 0.5% 0.5% 0.25%;
+
+}
+
+.info-text-cat {
+  font-family: quicksand;
+  font-size: small;
+  font-weight: bolder;
+  margin: 5px 5px 5px 10px;
+  line-height: 0.25;
+}
+
+.inspector-values {
+  font-size: smaller;
+  margin-left: 0.7rem;
+}
+
+.model-thumb {
+  /* border: 1px solid black; */
+  margin: 0.5% 0% 0.5% 0%;
+  padding: 1% 1.5% 1% 1.5%;
+  border-radius: 2px;
+  text-align: center;
+  float: left;
+  z-index: 10;
+  height: 11.5vh;
+  width: 20vh;
+  border-right: 1px dashed #d4d4d4;
+}
+
+a[disabled], a[disabled]:hover {
+  pointer-events: none;
+  color: #e1e1e1;
+}
+
+.model-thumb img {
+  position: relative;
+  float: left;
+  width:  100%;
+  height: 100%;
+  background-position: 50% 50%;
+  background-repeat:   no-repeat;
+  background-size:     cover;
+}
+
+#model-info-keys {
+  float: left;
+  padding-left: 10px;
+  vertical-align: middle;
+  padding-top: 5px;
+  font-size: smaller;
+
+}
+
+body, html {
+  height: 99%;
+  background-color: #444444;
+  color: #d4d4d4;
+    font-family: 'Permanent Marker', cursive;
+  }
+
+.comp-container {
+    border: 2px solid black;
+    border-radius: 52x;
+    background-color: #212121;
+}
+
+.comp-label {
+  position: absolute;
+  padding: 0.25em 0.5em 0.25em 0.5em;
+  font-family: 'Permanent Marker', cursive;
+  font-weight: bold;
+  font-size: medium;
+}
+
+#ts3dlogo {
+  height: 100%;
+  width: 50%;
+  /* left: 0%; */
+  position: relative;
+  float: left;
+}
+
+#ts3dlogo img {
+  max-width:50%;
+  max-height:60%;
+  top: 22%;
+  left: 2%;
+  position: relative;
+}
+
+#hclogo {
+  height: 100%;
+  width: 50%;
+  float: left;
+  position: relative
+}
+
+#hclogo img{
+  max-width: 60%;
+  max-height: 65%;
+  top: 20%;
+  display: flex;
+  float: right;
+  right: 2%;
+  position: relative;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 0%;
+  height: 0%;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}

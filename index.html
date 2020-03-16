@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Add the Bootstrap CDN for some simple styling -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
+
+  <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+
+
+  <!-- Include the HOOPS web viewer client source -->
+  <script type="text/javascript" src="src/hoops/hoops_web_viewer.js"></script>
+
+  <!-- Include the Webpack bundled result of our written source code -->
+  <script src="build/bundle.js"></script>
+
+  <title>Workflow Tutorial: Product Configurator</title>
+</head>
+
+<body>
+  <!-- Header Component w/ TS3D images -->
+  <header id="logo-head" class="comp-container">
+    <div id="ts3dlogo">
+      <img src="img/ts3d_logo.png" alt="logo" />
+    </div>
+    <div id="hclogo">
+      <img src="img/hc.png" alt="hcLogo" />
+    </div>
+  </header>
+
+  <div id="component-browser" class="comp-container">
+    <div id="component-browser-label" class="comp-label">Component Selection</div>
+    <div id="component-pills">
+      <ul class="nav nav-tabs nav-fill" id="pills-tab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="frame-tab" href="#frame" role="tab" content-id="frame">Frame</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="fork-tab" href="#fork" role="tab" content-id="fork">Fork</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="frontwheel-tab" href="#frontwheel" role="tab" content-id="frontwheel">Front Wheel</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="rearwheel-tab" href="#rearwheel" role="tab" content-id="rearwheel">Rear Wheel</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="seat-tab" href="#seat" role="tab" content-id="seat">Seat</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="crankset-tab" href="#crankset" role="tab" content-id="crankset">Crankset</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="handlebar-tab" href="#handlebar" role="tab" content-id="handlebar">Handlebar</a>
+        </li>
+      </ul>
+      <div class="tab-content" id="pills-tabContent">
+        <!-- Frames -->
+        <div class="tab-pane fade show active" id="frame" role="tabpanel">
+          <a class="model-thumb" href="#" model="overbiter" name="Tadcycles Overbiter">
+            <img alt="overbiter" src="data/scs/overbiter.png" />
+          </a>
+          <a class="model-thumb" href="#" model="jabberpeggy" name="Bradford Jabberpeggy">
+            <img alt="jabberpeggy" src="data/scs/jabberpeggy.png" />
+          </a>
+          <a class="model-thumb" href="#" name="Murph Milkbagger">
+            <img alt="milkbagger" src="data/scs/milkbagger.png" />
+          </a>
+        </div>
+        <!-- Forks -->
+        <div class="tab-pane fade" id="fork" role="tabpanel">
+          <a class="model-thumb" href="#" model="sektor130" name="RS Sektor 130">
+            <img alt="sektor130" src="data/scs/sektor130.png" />
+          </a>
+        </div>
+        <div class="tab-pane fade" id="frontwheel" role="tabpanel">
+          <a class="model-thumb" href="#" model="wheel" name="Kane Co. 27.5 PKF">
+            <img alt="frontwheel" src="data/scs/wheel.png" />
+          </a>
+        </div>
+        <div class="tab-pane fade" id="rearwheel" role="tabpanel">
+          <a class="model-thumb" href="#" model="wheel" name="Kane Co. 27.5 PKR">
+            <img alt="rearwheel" src="data/scs/wheel.png" />
+          </a>
+        </div>
+        <div class="tab-pane fade" id="seat" role="tabpanel">
+          <a class="model-thumb" href="#" model="brooks_seat" name="CP Saddles - Thicc">
+            <img alt="cpThicc" src="data/scs/brooks_seat.png" />
+          </a>
+          <a class="model-thumb" href="#" model="simourv_seat" name="CP Saddles - Tubs">
+            <img alt="cpTubs" src="data/scs/simourv_seat.png" />
+          </a>
+        </div>
+        <div class="tab-pane fade" id="crankset" role="tabpanel">
+            <a class="model-thumb" href="#" model="red_crankset" name="Kawabata TK5">
+                <img alt="red_crankset" src="data/scs/red_crankset.png" />
+            </a> 
+            <a class="model-thumb" href="#" model="crankset" name="Kawabata TK7">
+                <img alt="crankset" src="data/scs/crankset.png" />
+            </a>        
+            </div>
+        <div class="tab-pane fade" id="handlebar" role="tabpanel">
+          <a class="model-thumb" href="#" model="handlebar" name="Maurice Flo Handlebar">
+            <img alt="handlebar" src="data/scs/handlebar.png" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="component-preview" class="comp-container">
+    <div id="comp-viewer"></div>
+    <div id="component-preview-label" class="comp-label">Component Preview</div>
+  </div>
+
+  <!-- Main Viewer Component w/ Interaction -->
+  <div id="canvas" class="comp-container">
+    <div id="viewer"></div>
+    <div id="viewer-label" class="comp-label">Full Assembly Preview</div>
+  </div>
+
+  <div id="build-buttons" class="comp-container">
+    <div id="button-strip">
+      <button id="add-to-build-btn" class="btn btn-secondary">Add to Build</button>
+      <button class="btn btn-secondary">Save Build</button>
+      <button id="reset-build-btn" class="btn btn-secondary">Reset Build</button>
+    </div>
+  </div>
+
+  <div id="configuration-details" class="comp-container">
+    <div id="configuration-details-label" class="comp-label">Configuration Details</div>
+    <!-- Information Fields -->
+    <div id="inspector-info">
+      <!-- General Model Info -->
+      <div id="model-info" class="info-text-cat">
+        <div id="model-info-keys">
+          <p>Frame:</p>
+          <p id="breakdown-frame" class="inspector-values">Not Selected</p>
+          <p>Fork:</p>
+          <p id="breakdown-fork" class="inspector-values">Not Selected</p>
+          <p>Front Wheel:</p>
+          <p id="breakdown-frontwheel" class="inspector-values">Not Selected</p>
+          <p>Rear Wheel:</p>
+          <p id="breakdown-rearwheel" class="inspector-values">Not Selected</p>
+          <p>Seat:</p>
+          <p id="breakdown-seat" class="inspector-values">Not Selected</p>
+          <p>Crankset:</p>
+          <p id="breakdown-crankset" class="inspector-values">Not Selected</p>
+          <p>Handlebar:</p>
+          <p id="breakdown-handlebar" class="inspector-values">Not Selected</p>
+        </div>
+      </div>
+    </div>
+
+</body>
+
+</html>
