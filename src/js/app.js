@@ -1,7 +1,7 @@
 
 import '../css/tutorial-configurator.css';
 
-let directoryPath = '/product-configurator';
+let directoryPath = '../..';
 
 // Application logic will begin once DOM content is loaded
 window.onload = () => {
