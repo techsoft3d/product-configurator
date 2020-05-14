@@ -16,6 +16,8 @@ tmp
 # Build
 public/css/main.css
 
+package-lock.json
+
 # Coverage reports
 coverage
 
