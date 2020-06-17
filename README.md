@@ -18,6 +18,8 @@ Verify you have the latest version of `npm` installed on your machine:
 
 ## Setup and Run
 
+(This project has been simplified & can now be ran using `python3 -m http.server 8080` & accessed at [http://localhost:8081](http://localhost:8081) )
+
 1. Run `npm install` to install and required Node packages
     * Note: This step must be done at the project root where `package.json` is located
 2. Run `npm run build` to build the TypeScript project using [Webpack](https://webpack.js.org/)
