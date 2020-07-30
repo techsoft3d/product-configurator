@@ -6,8 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server",
-    "build": "webpack",
-    "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
   "author": "Chris Pillion",

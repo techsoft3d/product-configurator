@@ -1,6 +1,4 @@
 
-import '../css/tutorial-configurator.css';
-
 let directoryPath = '.';
 
 // Application logic will begin once DOM content is loaded
