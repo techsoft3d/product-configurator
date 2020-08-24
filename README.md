@@ -2,6 +2,8 @@
 
 A completed version of TechSoft 3D's [Product Configurator tutorial](https://docs.techsoft3d.com/communicator/latest/build/tutorials/product-configurator/01.html) for HOOPS Communicator.
 
+See it running live on [github pages](https://techsoft3d.github.io/product-configurator/)
+
 ## Prerequisites
 
 Verify you have the latest version of `npm` installed on your machine:
