@@ -43,6 +43,52 @@ class main {
                    // Reserved for later use
             }
         }); // End Callbacks
-  
      } // End main constructor
-} // End main class 
+     // Function to load models
+    loadModelPreview(modelName, transform = undefined) {
+        this._compViewer.model.clear()
+            .then(() => {
+            const nodeName = "Model-" + modelName;
+            const modelNodeId = this._compViewer.model.createNode(null, nodeName);
+            this._compViewer.model.loadSubtreeFromScsFile(modelNodeId, "/data/scs/" + modelName + ".scs")
+                .then(() => {
+                this._compViewer.view.fitWorld();
+            });
+        });
+    }
+    setEventListeners() {
+        let pills = document.getElementById("pills-tab");
+        let pillsRefs = pills.getElementsByTagName("a");
+        let pillsContent = document.getElementById("pills-tabContent");
+        let contentPanes = pillsContent.getElementsByTagName("div");
+        let modelThumbnails = pillsContent.getElementsByTagName("a");
+        for (let ref of pillsRefs) {
+            ref.onclick = (e) => {
+                for (let ref of pillsRefs) {
+                    ref.classList.remove("active", "show");
+                }
+                for (let pane of contentPanes) {
+                    pane.classList.remove("active");
+                }
+                let elem = e.currentTarget;
+                elem.classList.add("active");
+                let tag = elem.getAttribute("content-id");
+                document.getElementById(tag).classList.add("show", "active");
+            };
+        }
+        for (let thumbnail of modelThumbnails) {
+            let thumbnailElement = thumbnail;
+            thumbnailElement.onclick = (e) => {
+                e.preventDefault();
+                let elem = e.currentTarget;
+                let modelToLoad = elem.getAttribute("model");
+                let component = elem.parentElement.id;
+                // Load the model into the scene when clicked
+                this.loadModelPreview(modelToLoad);
+                this._componentType = component;
+                this._selectedComponent = modelToLoad;
+                this._selectedComponentName = elem.getAttribute("name");
+            };
+        }
+    }
+} // End main class
