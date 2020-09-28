@@ -43,6 +43,7 @@ class main {
                    // Reserved for later use
             }
         }); // End Callbacks
+        this.setEventListeners();
      } // End main constructor
      // Function to load models
     loadModelPreview(modelName, transform = undefined) {
@@ -57,6 +58,7 @@ class main {
         });
     }
     setEventListeners() {
+        console.log("event listeners called");
         let pills = document.getElementById("pills-tab");
         let pillsRefs = pills.getElementsByTagName("a");
         let pillsContent = document.getElementById("pills-tabContent");
