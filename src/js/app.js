@@ -175,5 +175,23 @@ class main {
             }
             document.getElementById(`breakdown-${this._componentType}`).innerHTML = this._selectedComponentName;
         };
+        document.getElementById("reset-build-btn").onclick = () => {
+            let opt = confirm("Are you sure would you like to reset your build? (This will clear all current selections!)");
+            if (opt) {
+                this._viewer.model.clear();
+                document.getElementById("breakdown-frame").innerHTML = "Not Selected";
+                document.getElementById("breakdown-fork").innerHTML = "Not Selected";
+                document.getElementById("breakdown-frontwheel").innerHTML = "Not Selected";
+                document.getElementById("breakdown-rearwheel").innerHTML = "Not Selected";
+                document.getElementById("breakdown-seat").innerHTML = "Not Selected";
+                document.getElementById("breakdown-crankset").innerHTML = "Not Selected";
+                document.getElementById("breakdown-handlebar").innerHTML = "Not Selected";
+                }
+            this._buildSelections.clear();
+        };
+        window.onresize = () => {
+            this._viewer.resizeCanvas();
+            this._compViewer.resizeCanvas();
+        };
     }
 } // End main class
