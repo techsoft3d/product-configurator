@@ -27,7 +27,7 @@ class main {
                 this._compViewer.view.setBackgroundColor(new Communicator.Color(33, 33, 33), new Communicator.Color(175, 175, 175));
                 this._compViewer.view.setBackfacesVisible(true);
             },
-        })
+        });
         this._viewer.setCallbacks({
             modelStructureReady: () => {
                 // Background color for viewers
