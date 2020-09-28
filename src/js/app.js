@@ -42,6 +42,12 @@ class main {
             },
             selectionArray: (selectionEvents) => {
                    // Reserved for later use
+                   if (selectionEvents.length == 0) {
+                        return;
+                    }
+                    let handleOp = this._viewer.operatorManager.getOperator(Communicator.OperatorId.Handle);
+                    handleOp.addHandles([selectionEvents[0].getSelection().getNodeId()]);
+                    handleOp.showHandles();
             }
         }); // End Callbacks
         this._frameAttachPoints = new Map();
@@ -101,12 +107,17 @@ class main {
                 e.preventDefault();
                 let elem = e.currentTarget;
                 let modelToLoad = elem.getAttribute("model");
-                let component = elem.parentElement.id;
-                // Load the model into the scene when clicked
-                this.loadModelPreview(modelToLoad);
-                this._componentType = component;
-                this._selectedComponent = modelToLoad;
-                this._selectedComponentName = elem.getAttribute("name");
+                if (modelToLoad === null) {
+                    alert("This component is currently unavailable. Please select another component.");
+                }
+                else {
+                    let component = elem.parentElement.id;
+                    // Load the model into the scene when clicked
+                    this.loadModelPreview(modelToLoad);
+                    this._componentType = component;
+                    this._selectedComponent = modelToLoad;
+                    this._selectedComponentName = elem.getAttribute("name");
+                }
             };
         }
         document.getElementById("add-to-build-btn").onclick = () => {
