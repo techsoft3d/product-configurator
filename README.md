@@ -15,5 +15,5 @@ Verify you have the latest version of `npm` installed on your machine:
 1. Clone the project: `git clone https://github.com/techsoft3d/product-configurator.git`
 2. Navigate to the project folder: `cd product_configurator_completed`
 3. Install dependencies: `npm install`
-4. Start the development server: `npm start`
+4. Start the development server: `npm run build`
 5. View the project at [http://localhost:8080](http://localhost:8080)

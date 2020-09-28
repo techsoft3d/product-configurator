@@ -1,6 +1,5 @@
 
-let directoryPath = '.';
-
+import '../css/tutorial-configurator.css';
 // Application logic will begin once DOM content is loaded
 window.onload = () => {
     const app = new main();
@@ -48,7 +47,7 @@ class main {
         }); // End Callbacks
         // Gather attach point data and store in Map
         this._frameAttachPoints = new Map();
-        fetch(directoryPath + '/data/attachPoints.json')
+        fetch("/data/attachPoints.json")
             .then((resp) => {
             if (resp.ok) {
                 resp.json()
@@ -73,7 +72,7 @@ class main {
             .then(() => {
             const nodeName = "Model-" + modelName;
             const modelNodeId = this._compViewer.model.createNode(null, nodeName);
-            this._compViewer.model.loadSubtreeFromScsFile(modelNodeId, directoryPath + "/data/scs/" + modelName + ".scs")
+            this._compViewer.model.loadSubtreeFromScsFile(modelNodeId, "/data/scs/" + modelName + ".scs")
                 .then(() => {
                 this._compViewer.view.fitWorld();
             });
@@ -138,7 +137,7 @@ class main {
             // First time frame is selected
             if (componentSubtrees.length === 0 && this._componentType === "frame") {
                 const modelNodeId = model.createNode(null, nodeName);
-                model.loadSubtreeFromScsFile(modelNodeId, directoryPath + `/data/scs/${this._selectedComponent}.scs`);
+                model.loadSubtreeFromScsFile(modelNodeId, `/data/scs/${this._selectedComponent}.scs`);
             }
             // For all other components, identify if the same type component has already been added.
             // If so, delete the existing node, and load the new node into the same nodeId and name.
@@ -152,7 +151,7 @@ class main {
                             .then(() => {
                             let promiseArray = [];
                             const modelNodeId = model.createNode(null, nodeName, nodeId, transformMatrix);
-                            promiseArray.push(model.loadSubtreeFromScsFile(modelNodeId, directoryPath + `/data/scs/${this._selectedComponent}.scs`));
+                            promiseArray.push(model.loadSubtreeFromScsFile(modelNodeId, `/data/scs/${this._selectedComponent}.scs`));
                             if (this._componentType === "frame") {
                                 promiseArray.push(model.setNodesVisibility([model.getAbsoluteRootNode()], false));
                                 let componentSubtrees = model.getNodeChildren(model.getAbsoluteRootNode());
@@ -179,7 +178,7 @@ class main {
                 }
                 if (!nodeExists) {
                     const modelNodeId = model.createNode(null, nodeName, null, transformMatrix);
-                    this._viewer.model.loadSubtreeFromScsFile(modelNodeId, directoryPath + `/data/scs/${this._selectedComponent}.scs`);
+                    this._viewer.model.loadSubtreeFromScsFile(modelNodeId, `/data/scs/${this._selectedComponent}.scs`);
                 }
             }
             document.getElementById(`breakdown-${this._componentType}`).innerHTML = this._selectedComponentName;
