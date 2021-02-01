@@ -15,8 +15,10 @@
   <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
 
   <!-- Include the HOOPS web viewer client source -->
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/techsoft3d/hoops-web-viewer@2020.0.0/hoops_web_viewer.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/techsoft3d/hoops-web-viewer@latest/hoops_web_viewer.js"></script>
 
+    <!-- Making the viewer globally available for debug purposes -->
+    <script >       var app;     </script>
 
   <!-- Include the Webpack bundled result of our written source code -->
   <script src="src/js/app.js"></script>
