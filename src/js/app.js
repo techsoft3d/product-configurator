@@ -27,7 +27,7 @@ class main {
         this._buildSelections = new Map();
 
         this._frameAttachPoints = new Map();
-        fetch("/data/attachPoints.json")
+        fetch("./data/attachPoints.json")
             .then((resp) => {
                 if (resp.ok) {
                 resp.json()
@@ -97,7 +97,7 @@ class main {
             .then(() => {
             const nodeName = "Model-" + modelName;
             const modelNodeId = this._compViewer.model.createNode(null, nodeName);
-            this._compViewer.model.loadSubtreeFromScsFile(modelNodeId, "/data/scs/" + modelName + ".scs")
+            this._compViewer.model.loadSubtreeFromScsFile(modelNodeId, "./data/scs/" + modelName + ".scs")
                 .then(() => {
                 this._compViewer.view.fitWorld();
             });
@@ -164,7 +164,7 @@ class main {
             // First time frame is selected
             if (componentSubtrees.length === 0 && this._componentType === "frame") {
                 const modelNodeId = model.createNode(null, nodeName);
-                model.loadSubtreeFromScsFile(modelNodeId, `/data/scs/${this._selectedComponent}.scs`);
+                model.loadSubtreeFromScsFile(modelNodeId, `./data/scs/${this._selectedComponent}.scs`);
             }
             // For all other components, identify if the same type component has already been added.
             // If so, delete the existing node, and load the new node into the same nodeId and name.
@@ -177,7 +177,7 @@ class main {
                         model.deleteNode(nodeId).then(() => {
                             let promiseArray = []
                             const modelNodeId = model.createNode(null, nodeName, nodeId, transformMatrix);
-                            promiseArray.push(model.loadSubtreeFromScsFile(modelNodeId, `/data/scs/${this._selectedComponent}.scs`));
+                            promiseArray.push(model.loadSubtreeFromScsFile(modelNodeId, `./data/scs/${this._selectedComponent}.scs`));
              
                             if (this._componentType === "frame") {
                                 promiseArray.push(model.setNodesVisibility([model.getAbsoluteRootNode()], false));
@@ -205,7 +205,7 @@ class main {
          
                 if (!nodeExists) {
                     const modelNodeId = model.createNode(null, nodeName, null, transformMatrix);
-                    this._viewer.model.loadSubtreeFromScsFile(modelNodeId, `/data/scs/${this._selectedComponent}.scs`);
+                    this._viewer.model.loadSubtreeFromScsFile(modelNodeId, `./data/scs/${this._selectedComponent}.scs`);
                 }
             }
             document.getElementById(`breakdown-${this._componentType}`).innerHTML = this._selectedComponentName;
