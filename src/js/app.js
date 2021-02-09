@@ -26,6 +26,24 @@ class main {
 
         this._buildSelections = new Map();
 
+        this._frameAttachPoints = new Map();
+        fetch("/data/attachPoints.json")
+            .then((resp) => {
+                if (resp.ok) {
+                resp.json()
+                    .then((data) => {
+                    let nodeData = data.NodeData;
+                    let numEntries = nodeData.length;
+                    for (let i = 0; i < numEntries; ++i) {
+                        this._frameAttachPoints.set(nodeData[i].modelName, nodeData[i]);
+                    };
+                    });
+                }
+                else {
+                alert("No JSON data for this Model was found.");
+                }
+            });
+
         this.setViewerCallbacks();
 
         this.setEventListeners();
@@ -34,6 +52,11 @@ class main {
 
     setViewerCallbacks() {
         this._viewer.setCallbacks({
+
+            modelStructureReady: () => {
+                this._viewer.model.setEnableAutomaticUnitScaling(false);
+            },
+
             sceneReady: () => {
                 // Enable backfaces
                 this._viewer.view.setBackfacesVisible(true);
@@ -47,16 +70,24 @@ class main {
                 this._viewer.view.getNavCube().setAnchor(Communicator.OverlayAnchor.LowerRightCorner);
                 
             },
+
             selectionArray: (selectionEvents) => {
                    // Reserved for later use
             }
+            
         }); // End Callbacks
 
         this._compViewer.setCallbacks({
+
+            modelStructureReady: () => {
+                this._compViewer.model.setEnableAutomaticUnitScaling(false);
+            },
+
             sceneReady: () => {
                 this._compViewer.view.setBackgroundColor(new Communicator.Color(33, 33, 33), new Communicator.Color(175, 175, 175));
                 this._compViewer.view.setBackfacesVisible(true);
             }
+
         })
     }
 
@@ -116,7 +147,6 @@ class main {
                 alert("No component has been selected to add to build. Please select a component to add.");
                 return;
             }
-            
             let model = this._viewer.model;
             this._buildSelections.set(this._componentType, this._selectedComponent);
             let frameBase = this._buildSelections.get("frame");
@@ -124,14 +154,18 @@ class main {
                 alert("Please select a frame before adding other components to your build.");
                 return;
             }
+         
             const nodeName = "Model-" + this._componentType;
             let componentSubtrees = model.getNodeChildren(model.getAbsoluteRootNode());
+         
+            // Build the transform matrix for the part to place it in the right spot when added
+            let rawMatData = this._frameAttachPoints.get(frameBase)[this._componentType];
+            let transformMatrix = this._componentType === "frame" ? null : Communicator.Matrix.createFromArray(Object.values(rawMatData));
             // First time frame is selected
             if (componentSubtrees.length === 0 && this._componentType === "frame") {
                 const modelNodeId = model.createNode(null, nodeName);
                 model.loadSubtreeFromScsFile(modelNodeId, `/data/scs/${this._selectedComponent}.scs`);
             }
-
             // For all other components, identify if the same type component has already been added.
             // If so, delete the existing node, and load the new node into the same nodeId and name.
             // Otherwise, create a new node off the absolute root
@@ -140,22 +174,41 @@ class main {
                 for (let nodeId of componentSubtrees) {
                     if (model.getNodeName(nodeId) === nodeName) {
                         nodeExists = true;
-                        model.deleteNode(nodeId)
-                        .then(() => {
+                        model.deleteNode(nodeId).then(() => {
                             let promiseArray = []
-                            const modelNodeId = model.createNode(null, nodeName, nodeId);
+                            const modelNodeId = model.createNode(null, nodeName, nodeId, transformMatrix);
                             promiseArray.push(model.loadSubtreeFromScsFile(modelNodeId, `/data/scs/${this._selectedComponent}.scs`));
+             
+                            if (this._componentType === "frame") {
+                                promiseArray.push(model.setNodesVisibility([model.getAbsoluteRootNode()], false));
+                                let componentSubtrees = model.getNodeChildren(model.getAbsoluteRootNode());
+                                
+                                // Frame selection change - update the component attach points
+                                for (let nodeId of componentSubtrees) {
+                                let nodeName = model.getNodeName(nodeId);
+                                let nodeType = nodeName.slice(6);
+                                if (nodeType === "frame") continue;
+                                let rawMatData = this._frameAttachPoints.get(frameBase)[nodeType];
+                                let transformMatrix = Communicator.Matrix.createFromArray(Object.values(rawMatData));
+                                promiseArray.push(model.setNodeMatrix(nodeId, transformMatrix));
+                            }
+                            Promise.all(promiseArray).then(() => {
+                                this._viewer.view.setBoundingCalculationIgnoresInvisible(false);
+                                this._viewer.view.fitWorld(0)
+                                  .then( () => model.setNodesVisibility([model.getAbsoluteRootNode()], true))
+                                })
+                            }
                             return;
                         })
                     }
                 }
+         
                 if (!nodeExists) {
-                    const modelNodeId = model.createNode(null, nodeName);
+                    const modelNodeId = model.createNode(null, nodeName, null, transformMatrix);
                     this._viewer.model.loadSubtreeFromScsFile(modelNodeId, `/data/scs/${this._selectedComponent}.scs`);
                 }
             }
             document.getElementById(`breakdown-${this._componentType}`).innerHTML = this._selectedComponentName;
-
         };
 
         document.getElementById("reset-build-btn").onclick = () => {
