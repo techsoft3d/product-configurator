@@ -32,6 +32,8 @@
 
 #button-strip {
   margin: 4% 14% 3.5% 14%;
+  overflow-x: scroll;
+  white-space: nowrap;
 }
 
 #button-strip .btn {
