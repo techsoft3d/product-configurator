@@ -1,7 +1,7 @@
 
 // Application logic will begin once DOM content is loaded
 window.onload = () => {
-    app = new main();
+    const app = new main();
 };
 
 
