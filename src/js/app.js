@@ -1,71 +1,96 @@
 
-import '../css/tutorial-configurator.css';
 // Application logic will begin once DOM content is loaded
 window.onload = () => {
-    const app = new main();
+    app = new main();
 };
+
+
 class main {
+
     constructor() {
-        this._buildSelections = new Map();
-        // Instantiate the viewers
+
+        // Instantiate the assembly viewer
         this._viewer = new Communicator.WebViewer({
             containerId: "viewer",
             empty: true
         });
+
+        // Instantiate the component viewer
         this._compViewer = new Communicator.WebViewer({
             containerId: "comp-viewer",
             empty: true
         });
+
         this._viewer.start();
         this._compViewer.start();
-        this._compViewer.setCallbacks({
-            modelStructureReady: () => {
-                // Background color for viewers
-                this._compViewer.view.setBackgroundColor(new Communicator.Color(33, 33, 33), new Communicator.Color(175, 175, 175));
-                this._compViewer.view.setBackfacesVisible(true);
-            },
-        });
-        this._viewer.setCallbacks({
-            modelStructureReady: () => {
-                // Background color for viewers
-                this._viewer.view.setBackgroundColor(new Communicator.Color(33, 33, 33), new Communicator.Color(175, 175, 175));
-                // Additional viewer options
-                this._viewer.view.setBackfacesVisible(true);
-                this._viewer.view.getAxisTriad().enable();
-                this._viewer.view.getNavCube().enable();
-                this._viewer.view.getNavCube().setAnchor(Communicator.OverlayAnchor.LowerRightCorner);
-                this._viewer.model.setEnableAutomaticUnitScaling(false);
-            },
-            selectionArray: (selectionEvents) => {
-                if (selectionEvents.length == 0) {
-                    return;
-                }
-                let handleOp = this._viewer.operatorManager.getOperator(Communicator.OperatorId.Handle);
-                handleOp.addHandles([selectionEvents[0].getSelection().getNodeId()]);
-                handleOp.showHandles();
-            }
-        }); // End Callbacks
-        // Gather attach point data and store in Map
+
+        this._buildSelections = new Map();
+
         this._frameAttachPoints = new Map();
         fetch("/data/attachPoints.json")
             .then((resp) => {
-            if (resp.ok) {
+                if (resp.ok) {
                 resp.json()
                     .then((data) => {
                     let nodeData = data.NodeData;
                     let numEntries = nodeData.length;
                     for (let i = 0; i < numEntries; ++i) {
                         this._frameAttachPoints.set(nodeData[i].modelName, nodeData[i]);
-                    }
-                    ;
-                });
-            }
-            else {
-                alert("Attach point data for this model was not found.");
-            }
-        });
+                    };
+                    });
+                }
+                else {
+                alert("No JSON data for this Model was found.");
+                }
+            });
+
+        this.setViewerCallbacks();
+
         this.setEventListeners();
+
     } // End app Constructor
+
+    setViewerCallbacks() {
+        this._viewer.setCallbacks({
+
+            modelStructureReady: () => {
+                this._viewer.model.setEnableAutomaticUnitScaling(false);
+            },
+
+            sceneReady: () => {
+                // Enable backfaces
+                this._viewer.view.setBackfacesVisible(true);
+
+                // Set Background color for viewer
+                this._viewer.view.setBackgroundColor(new Communicator.Color(33, 33, 33), new Communicator.Color(175, 175, 175));
+
+                // Enable nav cube and axis triad
+                this._viewer.view.getAxisTriad().enable();
+                this._viewer.view.getNavCube().enable();
+                this._viewer.view.getNavCube().setAnchor(Communicator.OverlayAnchor.LowerRightCorner);
+                
+            },
+
+            selectionArray: (selectionEvents) => {
+                   // Reserved for later use
+            }
+            
+        }); // End Callbacks
+
+        this._compViewer.setCallbacks({
+
+            modelStructureReady: () => {
+                this._compViewer.model.setEnableAutomaticUnitScaling(false);
+            },
+
+            sceneReady: () => {
+                this._compViewer.view.setBackgroundColor(new Communicator.Color(33, 33, 33), new Communicator.Color(175, 175, 175));
+                this._compViewer.view.setBackfacesVisible(true);
+            }
+
+        })
+    }
+
     // Function to load models
     loadModelPreview(modelName, transform = undefined) {
         this._compViewer.model.clear()
@@ -78,7 +103,10 @@ class main {
             });
         });
     }
+   
     setEventListeners() {
+
+        // Attach loading models to the model image thumbnails
         let pills = document.getElementById("pills-tab");
         let pillsRefs = pills.getElementsByTagName("a");
         let pillsContent = document.getElementById("pills-tabContent");
@@ -104,19 +132,16 @@ class main {
                 e.preventDefault();
                 let elem = e.currentTarget;
                 let modelToLoad = elem.getAttribute("model");
-                if (modelToLoad === null) {
-                    alert("This component is currently unavailable. Please select another component.");
-                }
-                else {
-                    let component = elem.parentElement.id;
-                    // Load the model into the scene when clicked
-                    this.loadModelPreview(modelToLoad);
-                    this._componentType = component;
-                    this._selectedComponent = modelToLoad;
-                    this._selectedComponentName = elem.getAttribute("name");
-                }
+                let component = elem.parentElement.id;
+                // Load the model into the scene when clicked
+                this.loadModelPreview(modelToLoad);
+                this._componentType = component;
+                this._selectedComponent = modelToLoad;
+                this._selectedComponentName = elem.getAttribute("name");
             };
         }
+        
+
         document.getElementById("add-to-build-btn").onclick = () => {
             if (!this._componentType || !this._selectedComponent || !this._selectedComponentName) {
                 alert("No component has been selected to add to build. Please select a component to add.");
@@ -129,8 +154,10 @@ class main {
                 alert("Please select a frame before adding other components to your build.");
                 return;
             }
+         
             const nodeName = "Model-" + this._componentType;
             let componentSubtrees = model.getNodeChildren(model.getAbsoluteRootNode());
+         
             // Build the transform matrix for the part to place it in the right spot when added
             let rawMatData = this._frameAttachPoints.get(frameBase)[this._componentType];
             let transformMatrix = this._componentType === "frame" ? null : Communicator.Matrix.createFromArray(Object.values(rawMatData));
@@ -147,35 +174,35 @@ class main {
                 for (let nodeId of componentSubtrees) {
                     if (model.getNodeName(nodeId) === nodeName) {
                         nodeExists = true;
-                        model.deleteNode(nodeId)
-                            .then(() => {
-                            let promiseArray = [];
+                        model.deleteNode(nodeId).then(() => {
+                            let promiseArray = []
                             const modelNodeId = model.createNode(null, nodeName, nodeId, transformMatrix);
                             promiseArray.push(model.loadSubtreeFromScsFile(modelNodeId, `/data/scs/${this._selectedComponent}.scs`));
+             
                             if (this._componentType === "frame") {
                                 promiseArray.push(model.setNodesVisibility([model.getAbsoluteRootNode()], false));
                                 let componentSubtrees = model.getNodeChildren(model.getAbsoluteRootNode());
+                                
                                 // Frame selection change - update the component attach points
                                 for (let nodeId of componentSubtrees) {
-                                    let nodeName = model.getNodeName(nodeId);
-                                    let nodeType = nodeName.slice(6);
-                                    if (nodeType === "frame")
-                                        continue;
-                                    let rawMatData = this._frameAttachPoints.get(frameBase)[nodeType];
-                                    let transformMatrix = Communicator.Matrix.createFromArray(Object.values(rawMatData));
-                                    promiseArray.push(model.setNodeMatrix(nodeId, transformMatrix));
-                                }
-                                Promise.all(promiseArray)
-                                    .then(() => {
-                                    this._viewer.view.setBoundingCalculationIgnoresInvisible(false);
-                                    this._viewer.view.fitWorld(0)
-                                        .then(() => model.setNodesVisibility([model.getAbsoluteRootNode()], true));
-                                });
+                                let nodeName = model.getNodeName(nodeId);
+                                let nodeType = nodeName.slice(6);
+                                if (nodeType === "frame") continue;
+                                let rawMatData = this._frameAttachPoints.get(frameBase)[nodeType];
+                                let transformMatrix = Communicator.Matrix.createFromArray(Object.values(rawMatData));
+                                promiseArray.push(model.setNodeMatrix(nodeId, transformMatrix));
+                            }
+                            Promise.all(promiseArray).then(() => {
+                                this._viewer.view.setBoundingCalculationIgnoresInvisible(false);
+                                this._viewer.view.fitWorld(0)
+                                  .then( () => model.setNodesVisibility([model.getAbsoluteRootNode()], true))
+                                })
                             }
                             return;
-                        });
+                        })
                     }
                 }
+         
                 if (!nodeExists) {
                     const modelNodeId = model.createNode(null, nodeName, null, transformMatrix);
                     this._viewer.model.loadSubtreeFromScsFile(modelNodeId, `/data/scs/${this._selectedComponent}.scs`);
@@ -183,8 +210,9 @@ class main {
             }
             document.getElementById(`breakdown-${this._componentType}`).innerHTML = this._selectedComponentName;
         };
+
         document.getElementById("reset-build-btn").onclick = () => {
-            let opt = confirm("Are you sure would you like to reset your build? (This will clear all current selections!)");
+            let opt = confirm("Are you sure would you like to reset your build? (This will clear all current selections!)")
             if (opt) {
                 this._viewer.model.clear();
                 document.getElementById("breakdown-frame").innerHTML = "Not Selected";
@@ -194,12 +222,15 @@ class main {
                 document.getElementById("breakdown-seat").innerHTML = "Not Selected";
                 document.getElementById("breakdown-crankset").innerHTML = "Not Selected";
                 document.getElementById("breakdown-handlebar").innerHTML = "Not Selected";
-            }
+                }
             this._buildSelections.clear();
-        };
+        }
+
         window.onresize = () => {
             this._viewer.resizeCanvas();
             this._compViewer.resizeCanvas();
         };
+
     } // End setting event handlers 
+    
 } // End app class 
