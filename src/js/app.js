@@ -9,9 +9,15 @@ class main {
 
     constructor() {
 
+        this.setViewerCallbacks();
+
         this.setEventListeners();
 
     } // End app Constructor
+
+    setViewerCallbacks() {
+        
+    }
    
     setEventListeners() {
         
