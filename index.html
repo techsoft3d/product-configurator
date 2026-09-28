@@ -22,16 +22,6 @@
   <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
 
-  <!-- Include the HOOPS web viewer client source -->
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/techsoft3d/hoops-web-viewer@latest/hoops_web_viewer.js"></script>
-
-    <!-- Making the viewer globally available for debug purposes -->
-    <script >       var app;     </script>
-
-  <!-- Include the Webpack bundled result of our written source code -->
-  <script src="src/js/app.js"></script>
-  <link href="src/css/tutorial-configurator.css" rel="stylesheet">
-
   <title>Workflow Tutorial: Product Configurator</title>
   
   <!-- Favicon head tag -->
@@ -137,13 +127,21 @@
 
 
   <div id="component-preview" class="comp-container">
-    <div id="comp-viewer"></div>
+    <hoops-service-registry>
+      <hoops-web-viewer-context-manager>
+        <hoops-web-viewer id="comp-viewer" enginePath="./engine"></hoops-web-viewer>
+      </hoops-web-viewer-context-manager>
+    </hoops-service-registry>
     <div id="component-preview-label" class="comp-label">Component Preview</div>
   </div>
 
   <!-- Main Viewer Component w/ Interaction -->
   <div id="canvas" class="comp-container">
-    <div id="viewer"></div>
+    <hoops-service-registry>
+      <hoops-web-viewer-context-manager>
+        <hoops-web-viewer id="viewer" enginePath="./engine"></hoops-web-viewer>
+      </hoops-web-viewer-context-manager>
+    </hoops-service-registry>
     <div id="viewer-label" class="comp-label">Full Assembly Preview</div>
   </div>
 
@@ -180,6 +178,7 @@
       </div>
     </div>
 
+  <script type="module" src="src/js/app.js"></script>
 </body>
 
 </html>

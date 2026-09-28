@@ -55,6 +55,13 @@
   position: relative;
 }
 
+#canvas hoops-web-viewer,
+#component-preview hoops-web-viewer {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 #component-pills {
   margin: 3.5% 1% 1% 1%;
   height: 76%;
