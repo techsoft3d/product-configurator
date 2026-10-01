@@ -1,7 +1,10 @@
+import '../css/tutorial-configurator.css';
+import '@ts3d-hoops/web-viewer-components';
 
 // Application logic will begin once DOM content is loaded
 window.onload = () => {
-    app = new main();
+    // Kept on window for debug/console access, same as the old global "app" variable
+    window.app = new main();
 };
 
 
